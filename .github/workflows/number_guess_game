@@ -1,0 +1,28 @@
+import random
+
+
+print('Welcome to the Number Guess Game')
+name =str(input('Enter your name: '))
+number = random.randint(0,1000)
+guess_number = 0
+print(number)
+while number != guess_number:
+    guess_number = int(input(name + " Enter the guess number: "))
+
+
+    if guess_number == 0:
+        print('----Answer----')
+        print('{} your guess number is {}'.format(name,number))
+        break
+
+    if guess_number == number:
+        print("Well done,"+ name +" you guessed it ")
+        break
+    else:
+        if guess_number < number:
+            print("{} Please guess higher then {} :".format(name,guess_number))
+            print("TO quit the game enter guess number as '0'")
+        else:
+            print("{} please guess lower than {} :".format(name,guess_number))
+            print("TO quit the game enter guess number as '0'")
+
