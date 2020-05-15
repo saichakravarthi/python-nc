@@ -1,0 +1,96 @@
+import json
+import pathlib
+def login():
+    print("welcome to digital slam book")
+    print('1: login ')
+    print("2: Sinup ")
+    print("3: Quit ")
+    choice= int(input("Enter Your Choice : "))
+    if choice == 1: #<- login
+        file = pathlib.Path("slam_book.json")
+        if file.exists():
+            with open('slam_book.json') as json_file:
+                data = json.load(json_file)
+                name = input("Enter the name")
+            if name == data['owner']['owner_name']:
+                print(" welcome back " + data['owner']['owner_name'])
+                password = input("Enter the passwored")
+                if password == data["owner"]["owner_password"]:
+                    print("welcome back to Digital slam book home options")
+                    slambook_home()
+                else:
+                    print('In valid details')
+        else:
+            print('Plese Sinup thare is no exsting account in the device ')
+
+    if choice == 2: #<- sinup to creat now account
+        print('Welcome to Digital Slam Book')
+        print("You dont have a digital slam book account")
+        print("1: Create Account")
+        print("2: Quit ")
+        option = int(input("Please Enter your choice"))
+        if option == 1:
+            print("welocome to digital slam book sinup ")
+            print("-" * 10)
+            owner_name = input('Enter Your Name: ')
+            owner_password = input("Enter Your Password :")
+            owner_dob = input('Enter Your Date of Birth: ')
+            owner_gender = input("Enter Your Gender ")
+            slambook_data = {
+                'owner': {'owner_name': owner_name, 'owner_password': owner_password, 'owner_dob': owner_dob,
+                            'owner_gender': owner_gender}}
+            with open('slam_book.json', 'w') as json_file:
+                json.dump(slambook_data, json_file)
+                print(owner_name + 'Account was created')
+                print("please login agian")
+        if option == 2:
+            quit()
+    if choice == 3: #<- Quit
+        quit()
+def slambook_home():
+    print('1.Search')
+    print("2.Add a friend")
+    print("3.Edit the data")
+    print("4.Quit")
+    option = int(input("enter the option "))
+    if option == 1:# <- search
+        print("search")
+        with open('slam_book.json') as json_file:
+            data = json.load(json_file)
+            name = input("enter the name")
+            if name in data:
+                for search in data:
+                    print(name  + 'dob is :' + data[name]['friend_dob'])
+                    print(name  + 'gender :' + data[name]['friend_gender'])
+                    print(name  + 'contact_number :' + data[name]['contact_number'])
+                    print(name  + 'favourite_food :' + data[name]['favourite_food'])
+                    slambook_home()
+                else:
+                    print('Name is not in the slam book data base')
+
+    if option == 2:# <- addind new person details
+        addding_new_friend()
+        slambook_home()
+    if option == 3:
+        print('edit the data')
+        print("still working on it")
+        slambook_home()
+    if option == 4:
+        quit()
+
+def addding_new_friend():
+    friend = input('enter the friend name')
+    data_of_birth = input('enter the data of birth')
+    gender = input('enter the gender')
+    contact_number = input('enter your contact number')
+    colour = input('enter the favourite color of' + friend)
+    food = input('enter the favourite food of ' + friend)
+    new_friend = {friend:{'friend_dob': data_of_birth, 'friend_gender': gender,
+            'contact_number': contact_number,
+            'favourite_colour': colour, 'favourite_food': food}}
+    with open('slam_book.json') as json_file:
+        data = json.load(json_file)
+        slambook_data = {**data,**new_friend}
+        with open('slam_book.json', 'w') as json_file:
+            json.dump(slambook_data, json_file)
+login()
